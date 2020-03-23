@@ -28,13 +28,13 @@ NSString *getUserInput(int maxLength, NSString *prompt) {
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         while (YES) {
-            NSString *strInput = getUserInput(255, @"¥nEnter your String: ('q' to quit");
+            NSMutableString *strInput = [NSMutableString stringWithString: getUserInput(255, @"\nEnter your String: ('q' to quit")];
             if ([strInput isEqualToString:@"q"]) {
                 break;
             }
             while (YES) {
-                NSString *option = getUserInput(10, @"\nChoose one of the following options\n1. Uppercase\n2. Lowercase\n3. Numberize\n4. Canadianize\n5. Resond\n6. De-Space-It\n7. Done\n");
-                if ([option isEqualToString:@"7"]) {
+                NSMutableString *option = [NSMutableString stringWithString: getUserInput(10, @"\nChoose one of the following options\n1. Uppercase\n2. Lowercase\n3. Numberize\n4. Canadianize\n5. Resond\n6. De-Space-It\n7. Count words\n8. Done\n")];
+                if ([option isEqualToString:@"8"]) {
                     break;
                 } else if ([option isEqualToString:@"1"]) {
                     NSLog(@"%@", [strInput uppercaseString]);
@@ -61,7 +61,10 @@ int main(int argc, const char * argv[]) {
                     }
                 } else if ([option isEqualToString:@"6"]) {
                     NSLog(@"%@", [strInput stringByReplacingOccurrencesOfString:@" " withString:@"-"]);
+                } else if ([option isEqualToString:@"7"]) {
+                    NSLog(@"%ld", [[strInput componentsSeparatedByString:@" " ] count]);
                 }
+
             }
         }
     }
