@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AdditionQuestion.h"
+#import "Question.h"
 #import "ScoreKeeper.h"
+#import "QuestionManager.h"
+#import "QuestionFactory.h"
 
 NSString *getUserInput(int maxLength, NSString *prompt) {
     if (maxLength < 1) {
@@ -31,21 +33,30 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSLog(@"MATHS!");
         ScoreKeeper *sk = [[ScoreKeeper alloc] init];
+        QuestionManager *qm = [[QuestionManager alloc] init];
+        QuestionFactory *qf = [[QuestionFactory alloc] init];
+        
         while (YES) {
-            AdditionQuestion *q = [[AdditionQuestion alloc] init];
+            Question *q = [qf generateRandomQuestion];
+            [qm.questions addObject:q];
+            
+            // get user input
             NSString *input = [NSString stringWithString:getUserInput(5, q.question)];
+            
             if ([input isEqualToString:@"quit"]) {
-                NSLog(@"%@", [sk getScore]);
                 break;
             }
             NSInteger inputInteger = [input integerValue];
-            if ([q checkAnsswer:inputInteger]) {
+            if ([q checkAnswer:inputInteger]) {
                 NSLog(@"Right!");
                 [sk addRight];
             } else {
                 NSLog(@"Wrong!");
                 [sk addWrong];
             }
+            
+            NSLog(@"%@", [sk getScore]);
+            NSLog(@"%@", [qm timeOutput]);
         }
     }
     return 0;

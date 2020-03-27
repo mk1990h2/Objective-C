@@ -1,5 +1,5 @@
 //
-//  AdditionQuestion.h
+//  MultiplicationQuestion.h
 //  Lab3
 //
 //  Created by 佐藤美佳 on 2020/03/26.
@@ -8,6 +8,10 @@
 
 #import "Question.h"
 
-@interface AdditionQuestion : Question
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MultiplicationQuestion : Question
 
 @end
+
+NS_ASSUME_NONNULL_END
