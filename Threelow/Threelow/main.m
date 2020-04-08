@@ -14,7 +14,7 @@ NSString *getUserInput(int maxLength, NSString *prompt) {
     if (maxLength < 1) {
         maxLength = 255;
     }
-    NSLog(@"%@ ", prompt);
+    NSLog(@"%@", prompt);
     char inputChars[maxLength];
     char *result = fgets(inputChars, maxLength, stdin);
     if (result != NULL) {
@@ -26,18 +26,30 @@ NSString *getUserInput(int maxLength, NSString *prompt) {
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        int count = 0;
-        GameController *gameController = [GameController new];
+        GameController *gameController = [[GameController alloc] init];
         
         while (!gameController.gameOver) {
-            NSString *input = [NSString stringWithString:getUserInput(5, @"Choose action from below:\nRoll\nHold\n")];
-            if ([input isEqualToString:@"Hold"]) {
-                NSString *hold = [NSString stringWithString:getUserInput(5, @"Input the index of the dice to hold\n")];
-                [gameController holdDie:[hold intValue]];
-            } else if ([input isEqualToString:@"Roll"]) {
+            [gameController printDicesAndScore];
+            NSString *input = [NSString stringWithString:getUserInput(5, @"Choose action from below:\nroll\nhold\nreset")];
+            if ([input isEqualToString:@"hold"]) {
+                while (true) {
+                    NSString *hold = [NSString stringWithString:getUserInput(5, @"Input the index of the dice to hold: ")];
+                    if (0 < [hold intValue] && [hold intValue] < 6) {
+                        [gameController holdDice:[hold intValue]];
+                        break;
+                    } else {
+                        NSLog(@"Invalid index");
+                    }
+
+                }
                 
+            } else if ([input isEqualToString:@"reset"]) {
+                [gameController resetDice];
+            } else if ([input isEqualToString:@"roll"]) {
+                [gameController rollDice];
             }
         }
+        [gameController end];
     }
     return 0;
 }

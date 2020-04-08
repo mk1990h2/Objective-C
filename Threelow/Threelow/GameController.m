@@ -10,7 +10,7 @@
 
 @implementation GameController
 
-int count = 0;
+int count = 1;
 
 - (instancetype)init
 {
@@ -29,12 +29,16 @@ int count = 0;
     return self;
 }
 
-- (void) holdDie:(int) index {
+- (void) holdDice:(int) index {
     if ([self.heldDices containsObject:self.diceArray[index-1]]) {
         [self.heldDices removeObject:self.diceArray[index-1]];
     } else {
         [self.heldDices addObject:self.diceArray[index-1]];
     }
+}
+
+- (void) resetDice {
+    [self.heldDices removeAllObjects];
 }
 
 - (void) rollDice {
@@ -43,27 +47,54 @@ int count = 0;
             continue;
         }
         [self.diceArray[i] roll];
-        count++;
-        self.gameOver = count == 5;
     }
+    count++;
+    self.gameOver = count == 5;
 }
 
-- (void) printAllDice {
+- (void) printAllDices {
+    // Current Dice
     NSString *str = @"";
-    NSString *space = @" ";
     
-    for (int i = 0; i < self.diceArray.count; i++) {
-        if (i == self.diceArray.count-1) space = @"";
-        NSString *printDiceStr;
-        if ([self.heldDices containsObject:self.diceArray[i]]) {
-            printDiceStr = [NSString stringWithFormat:@"%@%@%@", @"[", [self.diceArray[i] getDiceImage], @"]"];
+    for (Dice *dice in self.diceArray) {
+        if ([str isEqualToString:@""]) {
+            str = [str stringByAppendingString:[dice getDiceImage]];
         } else {
-            printDiceStr = [self.diceArray[i] getDiceImage];
+            str = [str stringByAppendingFormat:@" %@", [self getDiceString:dice]];
         }
-        [str stringByAppendingFormat:@"%@%@", printDiceStr, space];
     }
     
     NSLog(@"%@", str);
+}
+
+- (NSString*) getDiceString: (Dice*) dice {
+    if ([self.heldDices containsObject:dice]) {
+        return [NSString stringWithFormat:@"[%@]", [dice getDiceImage]];
+    }
+    return [dice getDiceImage];
+}
+
+- (void) printScore {
+    // Current score
+    int score = 0;
+    for (Dice *dice in self.heldDices) {
+        score += [dice value];
+    }
+    NSLog(@"Score: %d", score);
+}
+
+- (void) printDicesAndScore {
+    [self printAllDices];
+    [self printScore];
+}
+
+- (void) end {
+    NSLog(@"=====Game Over=====");
+    int score = 0;
+    for (Dice *dice in self.diceArray) {
+        score += [dice value];
+    }
+    NSLog(@"Your final score: %d", score);
 }
 
 

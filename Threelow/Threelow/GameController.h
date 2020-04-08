@@ -17,7 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSMutableArray *heldDices;
 @property BOOL gameOver;
 
-- (void) holdDie:(int) index;
+- (void) holdDice:(int) index;
+- (void) resetDice;
+- (void) rollDice;
+- (void) printDicesAndScore;
+- (void) end;
 
 @end
 
