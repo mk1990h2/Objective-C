@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Dice.h"
+#import "GameController.h"
 
 NSString *getUserInput(int maxLength, NSString *prompt) {
     if (maxLength < 1) {
@@ -22,30 +23,19 @@ NSString *getUserInput(int maxLength, NSString *prompt) {
     return NULL;
 }
 
-void rollAllDices(NSArray *diceArray) {
-    for (int i = 0; i < diceArray.count; i++) {
-        [diceArray[i] roll];
-    }
-}
-
-void printAllDices(NSArray *diceArray) {
-    NSString *str = @"";
-    NSString *space = @" ";
-    for (int i = 0; i < diceArray.count; i++) {
-        if (i == diceArray.count-1) space = @"";
-        [str stringByAppendingFormat:@"%@%@", [diceArray[i] getDiceImage], space];
-    }
-    NSLog(@"%@", str);
-
-}
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        while (true) {
-            NSString *input = [NSString stringWithString:getUserInput(5, @"roll or quit")];
-            if ([input isEqualToString:@"quit"]) {
-                break;
-            } else {
+        int count = 0;
+        GameController *gameController = [GameController new];
+        
+        while (!gameController.gameOver) {
+            NSString *input = [NSString stringWithString:getUserInput(5, @"Choose action from below:\nRoll\nHold\n")];
+            if ([input isEqualToString:@"Hold"]) {
+                NSString *hold = [NSString stringWithString:getUserInput(5, @"Input the index of the dice to hold\n")];
+                [gameController holdDie:[hold intValue]];
+            } else if ([input isEqualToString:@"Roll"]) {
+                
             }
         }
     }

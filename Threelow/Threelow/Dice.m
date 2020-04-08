@@ -13,7 +13,6 @@
 - (instancetype)init {
     if (self == [super init]) {
         _value = [self generateNumber];
-        _held = false;
     }
     return self;
 }

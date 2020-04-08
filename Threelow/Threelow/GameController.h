@@ -14,7 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GameController : NSObject
 
 @property NSArray *diceArray;
-@property NSMutableDictionary *heldDices;
+@property NSMutableArray *heldDices;
+@property BOOL gameOver;
+
+- (void) holdDie:(int) index;
 
 @end
 
